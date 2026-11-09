@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日乱斗官网 - 聚合乱斗游戏与版本动态</title>
+    <meta name="description" content="每日乱斗官网聚合每日乱斗游戏规则、英雄调整、版本更新与社区热榜。提供乱斗精选推荐、最新动态、分类入口与深度解析，适合乱斗玩家与版本追踪者查阅。">
+    <meta name="keywords" content="乱斗游戏,英雄乱斗,版本更新,乱斗攻略,乱斗热榜">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231a1e2c'/%3E%3Cpath d='M30 35 L50 15 L70 35 L70 70 L50 85 L30 70 Z' fill='%23f5b042'/%3E%3Ccircle cx='50' cy='50' r='12' fill='%231a1e2c'/%3E%3C/svg%3E">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --bg: #0f1119;
+            --surface: #1a1e2c;
+            --surface-2: #242a3c;
+            --border: #2f3650;
+            --text: #e8eaf0;
+            --text-muted: #9aa3b8;
+            --accent: #f5b042;
+            --accent-2: #5f7fff;
+            --danger: #e15b64;
+            --radius: 12px;
+            --radius-sm: 8px;
+            --shadow: 0 8px 24px rgba(0,0,0,0.4);
+            --font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            --header-height: 64px;
+            --announce-height: 44px;
+            --sticky-total: calc(var(--header-height) + var(--announce-height));
+            --container: 1380px;
+            --gap: 24px;
+        }
+        html {
+            scroll-padding-top: calc(var(--sticky-total) + 16px);
+        }
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+        /* 吸顶公告条 */
+        .announce-bar {
+            background: linear-gradient(90deg, #2a1f0a, #3d2b0e);
+            border-bottom: 1px solid var(--border);
+            color: #f5d08c;
+            font-size: 0.875rem;
+            height: var(--announce-height);
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .announce-bar .container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .announce-tag {
+            background: var(--accent);
+            color: #1a1e2c;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+        .announce-bar a {
+            color: #f5d08c;
+            font-weight: 500;
+        }
+        .announce-bar a:hover {
+            color: #fff;
+        }
+        /* 吸顶页头 */
+        .site-header {
+            background: rgba(15, 17, 25, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border);
+            height: var(--header-height);
+            position: sticky;
+            top: var(--announce-height);
+            z-index: 90;
+        }
+        .header-inner {
+            max-width: var(--container);
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--text);
+            letter-spacing: -0.5px;
+            flex-shrink: 0;
+        }
+        .brand svg {
+            width: 32px;
+            height: 32px;
+        }
+        .brand:hover {
+            text-decoration: none;
+            color: var(--accent);
+        }
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .main-nav a {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: background 0.2s, color 0.2s;
+            white-space: nowrap;
+        }
+        .main-nav a:hover,
+        .main-nav a:focus-visible {
+            background: var(--surface-2);
+            color: var(--text);
+            text-decoration: none;
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 4px 4px 4px 14px;
+        }
+        .search-box input {
+            background: transparent;
+            border: none;
+            color: var(--text);
+            font-size: 0.875rem;
+            outline: none;
+            width: 150px;
+        }
+        .search-box input::placeholder {
+            color: var(--text-muted);
+        }
+        .search-box button {
+            background: var(--accent);
+            border: none;
+            color: #1a1e2c;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .search-box button:hover {
+            background: #ffc25c;
+        }
+        .search-feedback {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            padding: 8px 0 0;
+            grid-column: 1 / -1;
+        }
+        /* 主容器 */
+        .container {
+            max-width: var(--container);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        /* 首屏 */
+        .hero {
+            padding: 40px 0 32px;
+            border-bottom: 1px solid var(--border);
+            background: radial-gradient(ellipse at 80% 20%, rgba(245, 176, 66, 0.06), transparent 60%);
+        }
+        .hero-inner {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .hero-content {
+            flex: 1 1 480px;
+        }
+        .hero-content h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+        .hero-desc {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 640px;
+            margin-bottom: 24px;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: #1a1e2c;
+        }
+        .btn-primary:hover {
+            background: #ffc25c;
+            text-decoration: none;
+        }
+        .btn-secondary {
+            background: var(--surface-2);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .btn-secondary:hover {
+            background: #2f3650;
+            text-decoration: none;
+        }
+        .hero-visual {
+            flex: 0 0 300px;
+            display: flex;
+            justify-content: center;
+        }
+        .hero-visual svg {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            filter: drop-shadow(0 0 30px rgba(245, 176, 66, 0.15));
+        }
+        /* 三栏布局 */
+        .layout-3col {
+            display: grid;
+            grid-template-columns: 180px 1fr 260px;
+            gap: var(--gap);
+            padding: 32px 0 48px;
+            align-items: start;
+        }
+        /* 左频道索引 */
+        .channel-index {
+            position: sticky;
+            top: calc(var(--sticky-total) + 16px);
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 16px 0;
+            overflow: hidden;
+        }
+        .channel-index h2 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            padding: 0 16px 12px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 8px;
+        }
+        .channel-index ul {
+            list-style: none;
+        }
+        .channel-index li a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: background 0.15s, color 0.15s;
+            border-left: 3px solid transparent;
+        }
+        .channel-index li a:hover,
+        .channel-index li a:focus-visible {
+            background: var(--surface-2);
+            color: var(--text);
+            text-decoration: none;
+            border-left-color: var(--accent);
+        }
+        .channel-index .badge {
+            background: var(--accent);
+            color: #1a1e2c;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 10px;
+            margin-left: auto;
+        }
+        /* 主内容区 */
+        .main-content {
+            min-width: 0;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .section:last-child {
+            margin-bottom: 0;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .section-header h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-header h2::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        .section-header .more-link {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .section-header .more-link:hover {
+            color: var(--accent);
+        }
+        /* 概览段落 */
+        .overview-text {
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 20px 24px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+        .overview-text p {
+            margin-bottom: 12px;
+        }
+        .overview-text p:last-child {
+            margin-bottom: 0;
+        }
+        .overview-text strong {
+            color: var(--text);
+        }
+        /* 卡片网格 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+        }
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: border-color 0.2s, transform 0.1s;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .card-img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            background: var(--surface-2);
+        }
+        .card-body {
+            padding: 14px 16px 16px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        .card-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+        .card-title a {
+            color: var(--text);
+        }
+        .card-title a:hover {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+        .tag {
+            display: inline-block;
+            background: var(--surface-2);
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 4px;
+            line-height: 1.4;
+        }
+        .tag-accent {
+            background: rgba(245, 176, 66, 0.15);
+            color: var(--accent);
+        }
+        .card-desc {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 10px;
+            flex: 1;
+        }
+        .card-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            padding-top: 8px;
+            margin-top: auto;
+        }
+        .card-meta .hot {
+            color: var(--accent);
+            font-weight: 700;
+        }
+        /* 紧凑列表 */
+        .list-compact {
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .list-compact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.15s;
+        }
+        .list-compact-item:last-child {
+            border-bottom: none;
+        }
+        .list-compact-item:hover {
+            background: var(--surface-2);
+        }
+        .list-compact-item .time-badge {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            background: var(--surface-2);
+            padding: 2px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .list-compact-item .item-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+        .list-compact-item .item-title a {
+            color: var(--text);
+        }
+        .list-compact-item .item-title a:hover {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .list-compact-item .item-desc {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        /* 分类入口网格 */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+        .category-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 14px 12px;
+            text-align: center;
+            transition: border-color 0.2s, background 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            color: var(--text);
+        }
+        .category-item:hover {
+            border-color: var(--accent);
+            background: var(--surface-2);
+            text-decoration: none;
+        }
+        .category-item .cat-icon {
+            font-size: 1.4rem;
+            line-height: 1;
+        }
+        .category-item .cat-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .category-item .cat-count {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+        /* 深度解析 */
+        .deep-dive {
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 24px 28px;
+        }
+        .deep-dive h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 20px 0 8px;
+            color: var(--text);
+        }
+        .deep-dive h3:first-of-type {
+            margin-top: 0;
+        }
+        .deep-dive p {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+        .deep-dive ul {
+            margin: 8px 0 16px 20px;
+            color: var(--text-muted);
+            font-size: 0.92rem;
+        }
+        .deep-dive li {
+            margin-bottom: 6px;
+        }
+        .deep-dive strong {
+            color: var(--text);
+        }
+        /* 体验指南（编号步骤） */
+        .steps {
+            counter-reset: step;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .step-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 16px 18px 16px 60px;
+            position: relative;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        .step-item::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background: var(--accent);
+            color: #1a1e2c;
+            font-weight: 800;
+            font-size: 0.9rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .step-item strong {
+            color: var(--text);
+        }
+        /* FAQ */
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .faq-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+        .faq-item summary {
+            padding: 14px 18px;
+            font-weight: 600;
+            font-size: 0.92rem;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--text);
+        }
+        .faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+        .faq-item summary::after {
+            content: '+';
+            font-size: 1.2rem;
+            color: var(--accent);
+            transition: transform 0.2s;
+            font-weight: 400;
+        }
+        .faq-item[open] summary::after {
+            content: '−';
+        }
+        .faq-item .faq-answer {
+            padding: 0 18px 16px;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+        /* 用户评论 */
+        .comment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+        }
+        .comment-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            font-size: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .comment-user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .comment-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--surface-2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+        .comment-name {
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--text);
+        }
+        .comment-text {
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        .comment-meta {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+        /* 相关资讯 */
+        .news-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .news-item {
+            display: flex;
+            gap: 16px;
+            padding: 16px 18px;
+            border-bottom: 1px solid var(--border);
+            align-items: flex-start;
+        }
+        .news-item:last-child {
+            border-bottom: none;
+        }
+        .news-date {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: var(--surface-2);
+            padding: 2px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .news-content .news-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+        .news-content .news-title a {
+            color: var(--text);
+        }
+        .news-content .news-title a:hover {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .news-content .news-summary {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        /* 相关推荐 */
+        .recommend-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .recommend-tag {
+            display: inline-block;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .recommend-tag:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            text-decoration: none;
+        }
+        /* 热门榜单 */
+        .rank-list {
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .rank-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 18px;
+            border-bottom: 1px solid var(--border);
+        }
+        .rank-item:last-child {
+            border-bottom: none;
+        }
+        .rank-num {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            background: var(--surface-2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+        .rank-num.top {
+            background: var(--accent);
+            color: #1a1e2c;
+        }
+        .rank-name {
+            flex: 1;
+            font-weight: 600;
+            font-size: 0.88rem;
+        }
+        .rank-name a {
+            color: var(--text);
+        }
+        .rank-name a:hover {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .rank-score {
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: 700;
+        }
+        /* 右侧辅助栏 */
+        .sidebar {
+            position: sticky;
+            top: calc(var(--sticky-total) + 16px);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .sidebar-box {
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .sidebar-box h3 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 14px 16px 8px;
+            color: var(--text);
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 4px;
+        }
+        .sidebar-list {
+            list-style: none;
+            padding: 4px 0;
+        }
+        .sidebar-list li a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 16px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            transition: background 0.15s;
+        }
+        .sidebar-list li a:hover {
+            background: var(--surface-2);
+            color: var(--text);
+            text-decoration: none;
+        }
+        .sidebar-list .index-num {
+            font-weight: 700;
+            color: var(--accent);
+            font-size: 0.75rem;
+            width: 16px;
+            flex-shrink: 0;
+        }
+        .sidebar-list .hot-badge {
+            background: var(--danger);
+            color: #fff;
+            font-size: 0.6rem;
+            padding: 1px 5px;
+            border-radius: 8px;
+            margin-left: auto;
+        }
+        /* 页尾 */
+        .site-footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 40px 0 24px;
+            margin-top: 16px;
+        }
+        .footer-inner {
+            display: grid;
+            grid-template-columns: 1.5fr repeat(3, 1fr);
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+        .footer-brand .brand {
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+        .footer-brand p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 280px;
+        }
+        .footer-col h4 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+        .footer-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .footer-col ul a {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+        .footer-col ul a:hover {
+            color: var(--accent);
+        }
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .layout-3col {
+                grid-template-columns: 1fr 240px;
+            }
+            .channel-index {
+                display: none;
+            }
+            .main-nav .desktop-only {
+                display: none;
+            }
+        }
+        @media (max-width: 740px) {
+            .layout-3col {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: static;
+            }
+            .hero-content h1 {
+                font-size: 1.9rem;
+            }
+            .hero-visual {
+                flex: 0 0 100%;
+                order: -1;
+                max-width: 200px;
+                margin: 0 auto;
+            }
+            .footer-inner {
+                grid-template-columns: 1fr 1fr;
+            }
+            .search-box input {
+                width: 100px;
+            }
+            .announce-bar .container {
+                font-size: 0.8rem;
+            }
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            .comment-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 480px) {
+            .header-inner {
+                gap: 8px;
+            }
+            .brand {
+                font-size: 1rem;
+            }
+            .brand svg {
+                width: 26px;
+                height: 26px;
+            }
+            .search-box {
+                display: none;
+            }
+            .footer-inner {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* 可访问焦点 */
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            border: 0;
+        }
+    </style>
+<script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+</head>
+<body>
+
+    <!-- 吸顶公告条 -->
+    <div class="announce-bar" id="announce">
+        <div class="container">
+            <span class="announce-tag">更新</span>
+            <span>本周新增 8 个乱斗关卡与 3 位英雄调整 · </span>
+            <a href="#latest">查看详情</a>
+        </div>
+    </div>
+
+    <!-- 吸顶页头 -->
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="/" class="brand" aria-label="每日乱斗官网首页">
+                <svg viewBox="0 0 100 100" aria-hidden="true">
+                    <rect width="100" height="100" rx="20" fill="#1a1e2c" />
+                    <path d="M30 35 L50 15 L70 35 L70 70 L50 85 L30 70 Z" fill="#f5b042" />
+                    <circle cx="50" cy="50" r="12" fill="#1a1e2c" />
+                </svg>
+                每日乱斗官网
+            </a>
+            <nav class="main-nav" aria-label="主导航">
+                <a href="#overview">概览</a>
+                <a href="#featured">精选</a>
+                <a href="#latest">动态</a>
+                <a href="#categories">分类</a>
+                <a href="#deep">解析</a>
+                <a href="#faq">问答</a>
+                <a href="#community" class="desktop-only">评论</a>
+                <a href="#news" class="desktop-only">资讯</a>
+            </nav>
+            <div class="header-actions">
+                <form class="search-box" role="search" id="searchForm">
+                    <label for="searchInput" class="sr-only">搜索乱斗条目</label>
+                    <input type="search" id="searchInput" placeholder="搜索乱斗条目…" autocomplete="off">
+                    <button type="submit">查找</button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主题首屏 -->
+    <section class="hero">
+        <div class="container hero-inner">
+            <div class="hero-content">
+                <h1>每日乱斗官网</h1>
+                <p class="hero-desc">
+                    汇聚每日乱斗游戏最新关卡、英雄调整、版本规则与社区热榜。追踪乱斗精选条目、实时动态与深度解析，为乱斗玩家提供可查阅的内容索引。
+                </p>
+                <div class="hero-actions">
+                    <a href="#featured" class="btn btn-primary">浏览今日乱斗</a>
+                    <a href="#latest" class="btn btn-secondary">版本更新记录</a>
+                </div>
+            </div>
+            <div class="hero-visual" aria-hidden="true">
+                <svg viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="150" cy="150" r="120" stroke="#f5b042" stroke-width="2" stroke-dasharray="8 8" opacity="0.4"/>
+                    <circle cx="150" cy="150" r="90" stroke="#5f7fff" stroke-width="1.5" opacity="0.3"/>
+                    <path d="M90 120 L150 60 L210 120 L210 200 L150 240 L90 200 Z" fill="#242a3c" stroke="#f5b042" stroke-width="2"/>
+                    <circle cx="150" cy="150" r="30" fill="#f5b042" opacity="0.2"/>
+                    <circle cx="150" cy="150" r="14" fill="#f5b042"/>
+                    <path d="M60 180 L90 180" stroke="#5f7fff" stroke-width="2" opacity="0.6"/>
+                    <path d="M210 120 L240 120" stroke="#5f7fff" stroke-width="2" opacity="0.6"/>
+                    <circle cx="70" cy="90" r="6" fill="#5f7fff" opacity="0.6"/>
+                    <circle cx="230" cy="210" r="6" fill="#5f7fff" opacity="0.6"/>
+                    <circle cx="240" cy="80" r="4" fill="#f5b042" opacity="0.5"/>
+                    <circle cx="60" cy="220" r="4" fill="#f5b042" opacity="0.5"/>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- 三栏主内容区 -->
+    <div class="container layout-3col">
+
+        <!-- 左频道索引 -->
+        <aside class="channel-index" aria-label="频道索引">
+            <h2>频道索引</h2>
+            <ul>
+                <li><a href="#featured">今日精选 <span class="badge">8</span></a></li>
+                <li><a href="#latest">版本动态</a></li>
+                <li><a href="#categories">乱斗分类</a></li>
+                <li><a href="#deep">深度解析</a></li>
+                <li><a href="#guide">体验指南</a></li>
+                <li><a href="#faq">常见问答</a></li>
+                <li><a href="#community">玩家评论</a></li>
+                <li><a href="#news">相关资讯</a></li>
+                <li><a href="#recommend">延伸推荐</a></li>
+                <li><a href="#rank">热度榜单</a></li>
+            </ul>
+        </aside>
+
+        <!-- 中间主内容 -->
+        <main class="main-content">
+
+            <!-- 1. 主题领域概览 -->
+            <section class="section" id="overview">
+                <div class="section-header">
+                    <h2>乱斗游戏领域概览</h2>
+                </div>
+                <div class="overview-text">
+                    <p><strong>每日乱斗官网</strong>所指向的领域，围绕多人在线乱斗类游戏展开。这类游戏以短局制、高节奏对抗为核心，通常包含英雄选择、技能连招、地图机制与随机事件等要素。当前热门方向包括<strong>英雄乱斗</strong>（3v3 或 5v5 限时模式）、<strong>大乱斗</strong>（30 人同场生存）、<strong>双人乱斗</strong>（2v2 配合赛）以及<strong>乱斗轮换</strong>（每周限定规则）。每个方向在节奏长度、配合要求和胜负判定上差异明显。</p>
+                    <p>从内容关注点来看，玩家主要追踪三类信息：一是<strong>英雄与技能调整</strong>，例如 11 月 5 日版本中对「影刃」突进距离的削弱；二是<strong>地图与机制轮换</strong>，如「熔岩矿洞」新增的随机喷发点；三是<strong>乱斗通行证与奖励规则</strong>，包括每周任务刷新时间和兑换比例。这些变动直接影响对局策略与英雄选择优先级。</p>
+                    <p>在具体条目层面，值得关注的内容包括<strong>「极速乱斗」第三赛季</strong>的段位重置规则、<strong>「混沌大乱斗」</strong>的 30 人缩圈节奏，以及<strong>「镜像乱斗」</strong>（双方使用相同英雄）的平衡性争议。此外，社区每周产出的<strong>乱斗周报</strong>与<strong>英雄胜率榜</strong>也是判断版本风向的重要参考。</p>
+                </div>
+            </section>
+
+            <!-- 2. 精选内容推荐 -->
+            <section class="section" id="featured">
+                <div class="section-header">
+                    <h2>今日乱斗精选推荐</h2>
+                    <a href="#latest" class="more-link">查看全部 →</a>
+                </div>
+                <div class="card-grid" id="featuredGrid">
+                    <article class="card">
+                        <img class="card-img" src="https://picsum.photos/seed/jirandou-hunluan01/400/300" alt="混沌大乱斗30人生存模式封面" width="400" height="300" loading="lazy">
+                        <div class="card-body">
+                            <h3 class="card-title"><a href="#latest">混沌大乱斗：30人缩圈生存</a></h3>
+                            <div class="card-tags">
+                                <span class="tag tag-accent">大乱斗</span>
+                                <span class="tag">生存</span>
+                                <span class="tag">缩圈</span>
+                            </div>
+                            <p class="card-desc">30 名玩家同场竞技，地图每 90 秒缩小一次，最终存活者胜。当前版本新增「毒雾蔓延」事件，节奏更快。</p>
+                            <div class="card-meta">
+                                <span>热度 <span class="hot">9.6</span></span>
+                                <span>今日更新</span>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <img class="card-img" src="https://picsum.photos/seed/jirandou-jisu02/400/300" alt="极速乱斗第三赛季界面" width="400" height="300" loading="lazy">
+                        <div class="card-body">
+                            <h3 class="card-title"><a href="#latest">极速乱斗第三赛季段位重置</a></h3>
+                            <div class="card-tags">
+                                <span class="tag tag-accent">3v3</span>
+                                <span class="tag">赛季</span>
+                                <span class="tag">段位</span>
+                            </div>
+                            <p class="card-desc">第三赛季于 11 月 7 日开启，段位继承规则调整：钻石以上玩家重置至铂金 III，定级赛从 5 场改为 8 场。</p>
+                            <div class="card-meta">
+                                <span>评分 <span class="hot">9.2</span></span>
+                                <span>11 月 7 日</span>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <img class="card-img" src="https://picsum.photos/seed/jirandou-yingren03/400/300" alt="影刃英雄技能调整说明图" width="400" height="300" loading="lazy">
+                        <div class="card-body">
+                            <h3 class="card-title"><a href="#latest">影刃突进距离削弱分析</a></h3>
+                            <div class="card-tags">
+                                <span class="tag tag-accent">英雄调整</span>
+                                <span class="tag">刺客</span>
+                                <span class="tag">版本</span>
+                            </div>
+                            <p class="card-desc">11 月 5 日热更新将「影刃」突进距离从 6 米降至 5 米，冷却增加 1 秒。对切入时机和连招顺序产生直接影响。</p>
+                            <div class="card-meta">
+                                <span>讨论 <span class="hot">2.1k</span></span>
+                                <span>11 月 5 日</span>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <img class="card-img" src="https://picsum.photos/seed/jirandou-huanxiang04/400/300" alt="镜像乱斗相同英雄对战画面" width="400" height="300" loading="lazy">
+                        <div class="card-body">
+                            <h3 class="card-title"><a href="#latest">镜像乱斗：双方同英雄平衡争议</a></h3>
+                            <div class="card-tags">
+                                <span class="tag tag-accent">镜像模式</span>
+                                <span class="tag">平衡</span>
+                                <span class="tag">社区</span>
+                            </div>
+                            <p class="card-desc">双方使用相同英雄的 5v5 模式，近期因「冰霜法师」胜率差达 12% 引发讨论，官方在 11 月 6 日回应将调整。</p>
+                            <div class="card-meta">
+                                <span>热度 <span class="hot">8.8</span></span>
+                                <span>11 月 6 日</span>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <img class="card-img" src="https://picsum.photos/seed/jirandou-rongyan05/400/300" alt="熔岩矿洞地图喷发点布局" width="400" height="300" loading="lazy">
+                        <div class="card-body">
+                            <h3 class="card-title"><a href="#latest">熔岩矿洞新增随机喷发点</a></h3>
+                            <div class="card-tags">
+                                <span class="tag tag-accent">地图</span>
+                                <span class="tag">机制</span>
+                                <span class="tag">轮换</span>
+                            </div>
+                            <p class="card-desc">11 月 8 日起「熔岩矿洞」加入随机喷发点，每局出现位置不同，迫使玩家放弃固定蹲守路线，增加前期遭遇频率。</p>
+                            <div class="card-meta">
+                                <span>更新 <span class="hot">今日</span></span>
+                                <span>11 月 8 日</span>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <img class="card-img" src="https://picsum.photos/seed/jirandou-shuangren06/400/300" alt="双人乱斗2v2配合赛界面" width="400" height="300" loading="lazy">
+                        <div class="card-body">
+                            <h3 class="card-title"><a href="#latest">双人乱斗 2v2 配合赛上线</a></h3>
+                            <div class="card-tags">
+                                <span class="tag tag-accent">2v2</span>
+                                <span class="tag">配合</span>
+                                <span class="tag">新玩法</span>
+                            </div>
+                            <p class="card-desc">全新 2v2 模式于 11 月 4 日上线，共享血量池，救援机制改为 3 秒读条。强调双人技能衔接与走位同步。</p>
+                            <div class="card-meta">
+                                <span>热度 <span class="hot">9.0</span></span>
+                                <span>11 月 4 日</span>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <img class="card-img" src="https://picsum.photos/seed/jirandou-tongxing07/400/300" alt="乱斗通行证每周任务界面" width="400" height="300" loading="lazy">
+                        <div class="card-body">
+                            <h3 class="card-title"><a href="#latest">乱斗通行证第 9 周任务清单</a></h3>
+                            <div class="card-tags">
+                                <span class="tag tag-accent">通行证</span>
+                                <span class="tag">任务</span>
+                                <span class="tag">奖励</span>
+                            </div>
+                            <p class="card-desc">第 9 周任务包含「使用辅助英雄完成 3 场乱斗」「在熔岩矿洞获胜 2 次」等，全部完成可获 1200 乱斗币。</p>
+                            <div class="card-meta">
+                                <span>更新 <span class="hot">本周</span></span>
+                                <span>11 月 3 日</span>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <img class="card-img" src="https://picsum.photos/seed/jirandou-yingxiong08/400/300" alt="英雄胜率榜前列角色头像" width="400" height="300" loading="lazy">
+                        <div class="card-body">
+                            <h3 class="card-title"><a href="#rank">本周英雄胜率榜前五</a></h3>
+                            <div class="card-tags">
+                                <span class="tag tag-accent">数据</span>
+                                <span class="tag">胜率</span>
+                                <span class="tag">英雄</span>
+                            </div>
+                            <p class="card-desc">基于 11 月 1 日至 7 日排位数据，胜率前五为「岩盾」「风语者」「影刃」「冰霜法师」「铁拳」，其中岩盾胜率 54.3%。</p>
+                            <div class="card-meta">
+                                <span>统计 <span class="hot">周榜</span></span>
+                                <span>11 月 7 日</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <p class="search-feedback" id="searchFeedback" hidden></p>
+            </section>
+
+            <!-- 3. 最新更新 / 动态 -->
+            <section class="section" id="latest">
+                <div class="section-header">
+                    <h2>最新乱斗动态</h2>
+                </div>
+                <div class="list-compact">
+                    <div class="list-compact-item">
+                        <span class="time-badge">今天 09:30</span>
+                        <div>
+                            <div class="item-title"><a href="#latest">「混沌大乱斗」第 8 赛季开启</a></div>
+                            <div class="item-desc">新赛季加入「毒雾蔓延」事件与 3 张新地图，缩圈间隔从 120 秒调整为 90 秒。</div>
+                        </div>
+                    </div>
+                    <div class="list-compact-item">
+                        <span class="time-badge">今天 08:15</span>
+                        <div>
+                            <div class="item-title"><a href="#latest">英雄「铁拳」被动护盾值下调</a></div>
+                            <div class="item-desc">11 月 8 日热更新：铁拳被动护盾从 150 降至 120，冷却时间不变。</div>
+                        </div>
+                    </div>
+                    <div class="list-compact-item">
+                        <span class="time-badge">昨天 21:10</span>
+                        <div>
+                            <div class="item-title"><a href="#latest">「极速乱斗」定级赛延长至 8 场</a></div>
+                            <div class="item-desc">第三赛季定级赛从 5 场改为 8 场，官方称是为了更准确评估玩家水平。</div>
+                        </div>
+                    </div>
+                    <div class="list-compact-item">
+                        <span class="time-badge">昨天 18:40</span>
+                        <div>
+                            <div class="item-title"><a href="#latest">「镜像乱斗」冰霜法师暂时禁用</a></div>
+                            <div class="item-desc">因胜率差过大，冰霜法师在镜像模式中被暂时禁用，预计 11 月 12 日重新评估。</div>
+                        </div>
+                    </div>
+                    <div class="list-compact-item">
+                        <span class="time-badge">11 月 7 日</span>
+                        <div>
+                            <div class="item-title"><a href="#latest">乱斗通行证第 9 周任务上线</a></div>
+                            <div class="item-desc">本周任务侧重辅助英雄与熔岩矿洞，奖励包含 1200 乱斗币和限定头像框。</div>
+                        </div>
+                    </div>
+                    <div class="list-compact-item">
+                        <span class="time-badge">11 月 6 日</span>
+                        <div>
+                            <div class="item-title"><a href="#latest">「双人乱斗」新增救援读条机制</a></div>
+                            <div class="item-desc">2v2 模式救援从瞬间拉起改为 3 秒读条，期间可被打断，强调掩护配合。</div>
+                        </div>
+                    </div>
+                    <div class="list-compact-item">
+                        <span class="time-badge">11 月 5 日</span>
+                        <div>
+                            <div class="item-title"><a href="#latest">「影刃」突进距离削弱至 5 米</a></div>
+                            <div class="item-desc">热更新将影刃突进距离从 6 米降至 5 米，冷却增加 1 秒，影响切入与逃生节奏。</div>
+                        </div>
+                    </div>
+                    <div class="list-compact-item">
+                        <span class="time-badge">11 月 4 日</span>
+                        <div>
+                            <div class="item-title"><a href="#latest">「熔岩矿洞」随机喷发点实装</a></div>
+                            <div class="item-desc">地图新增随机喷发点，每局位置不同，固定蹲守战术失效，前期遭遇率提升。</div>
+                        </div>
+                    </div>
+                    <div class="list-compact-item">
+                        <span class="time-badge">11 月 3 日</span>
+                        <div>
+                            <div class="item-title"><a href="#latest">「风语者」技能描述修正</a></div>
+                            <div class="item-desc">修正了风语者大招描述中的范围数值，实际效果不变，仅为文本修正。</div>
+                        </div>
+                    </div>
+                    <div class="list-compact-item">
+                        <span class="time-badge">11 月 2 日</span>
+                        <div>
+                            <div class="item-title"><a href="#latest">10 月乱斗周报发布</a></div>
+                            <div class="item-desc">10 月 27 日至 11 月 2 日周报：岩盾出场率 28%，胜率 54.3%，为当前版本综合最强英雄。</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. 分类入口 -->
+            <section class="section" id="categories">
+                <div class="section-header">
+                    <h2>乱斗分类入口</h2>
+                </div>
+                <div class="category-grid">
+                    <a href="#featured" class="category-item">
+                        <span class="cat-icon">⚔️</span>
+                        <span class="cat-name">英雄乱斗</span>
+                        <span class="cat-count">3v3 / 5v5 限时</span>
+                    </a>
+                    <a href="#featured" class="category-item">
+                        <span class="cat-icon">💥</span>
+                        <span class="cat-name">大乱斗</span>
+                        <span class="cat-count">30 人混战</span>
+                    </a>
+                    <a href="#featured" class="category-item">
+                        <span class="cat-icon">🤝</span>
+                        <span class="cat-name">双人乱斗</span>
+                        <span class="cat-count">2v2 配合</span>
+                    </a>
+                    <a href="#featured" class="category-item">
+                        <span class="cat-icon">🔄</span>
+                        <span class="cat-name">乱斗轮换</span>
+                        <span class="cat-count">每周限定</span>
+                    </a>
+                    <a href="#featured" class="category-item">
+                        <span class="cat-icon">🪞</span>
+                        <span class="cat-name">镜像模式</span>
+                        <span class="cat-count">同英雄对抗</span>
+                    </a>
+                    <a href="#featured" class="category-item">
+                        <span class="cat-icon">📊</span>
+                        <span class="cat-name">英雄胜率榜</span>
+                        <span class="cat-count">每周更新</span>
+                    </a>
+                    <a href="#featured" class="category-item">
+                        <span class="cat-icon">🎫</span>
+                        <span class="cat-name">乱斗通行证</span>
+                        <span class="cat-count">任务与奖励</span>
+                    </a>
+                    <a href="#featured" class="category-item">
+                        <span class="cat-icon">🗺️</span>
+                        <span class="cat-name">地图机制</span>
+                        <span class="cat-count">轮换与事件</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- 5. 深度解析正文 -->
+            <section class="section" id="deep">
+                <div class="section-header">
+                    <h2>乱斗类型与版本深度解析</h2>
+                </div>
+                <div class="deep-dive">
+                    <h3>英雄乱斗与混沌大乱斗的核心差异</h3>
+                    <p>英雄乱斗以 3v3 或 5v5 的对称对抗为主，双方在英雄选择、技能冷却和地图资源上基本对等，胜负更多取决于阵容搭配与团战执行。而混沌大乱斗是 30 人非对称生存模式，玩家需要同时应对其他玩家和缩圈机制，前期以发育和遭遇战为主，后期则围绕安全区进行心理博弈。两者在节奏长度上差异明显：英雄乱斗单局通常 8—12 分钟，混沌大乱斗平均 15—20 分钟。</p>
+                    <h3>版本调整如何影响英雄优先级</h3>
+                    <p>以 11 月 5 日「影刃」突进距离削弱为例，该英雄原本依赖 6 米突进完成先手控制，降至 5 米后，面对远程英雄的容错率明显下降。根据 11 月 1 日至 7 日的排位数据，影刃胜率从 52.8% 降至 50.1%，出场率下降 4 个百分点。这类调整通常会在热更新后 3—5 天内反映在榜单上，玩家可以观察英雄胜率榜的周变化来判断版本风向。</p>
+                    <h3>地图机制对战术选择的具体影响</h3>
+                    <p>「熔岩矿洞」新增随机喷发点后，固定蹲守高台的收益降低。喷发点每局位置随机，迫使队伍在前期进行更多游走和视野争夺。具体应对策略包括：</p>
+                    <ul>
+                        <li><strong>优先控制中央区域</strong>：喷发点虽随机，但中央区域出现概率较高，且便于支援两侧。</li>
+                        <li><strong>携带位移英雄</strong>：如「风语者」的短距离冲刺可快速脱离喷发范围。</li>
+                        <li><strong>避免长时间站桩</strong>：喷发点出现前有 2 秒预警，看到预警应立即移动。</li>
+                    </ul>
+                    <h3>乱斗通行证与奖励效率</h3>
+                    <p>第 9 周任务包含「使用辅助英雄完成 3 场乱斗」「在熔岩矿洞获胜 2 次」等，全部完成可获得 1200 乱斗币。对比直接购买，通行证任务的时间投入约为 2—3 小时，适合每天有固定游戏时间的玩家。若时间有限，优先完成带「乱斗币」奖励的任务，头像框等装饰性奖励可以放弃。</p>
+                </div>
+            </section>
+
+            <!-- 6. 体验指南 / 消费路径（编号步骤） -->
+            <section class="section" id="guide">
+                <div class="section-header">
+                    <h2>乱斗内容体验顺序指南</h2>
+                </div>
+                <div class="steps">
+                    <div class="step-item">
+                        <strong>先看英雄胜率榜确定版本强势角色</strong>——每周更新的胜率榜能快速告诉你哪些英雄在当前版本更稳定。优先关注出场率超过 15% 且胜率高于 52% 的英雄，通常代表版本答案。
+                    </div>
+                    <div class="step-item">
+                        <strong>根据自己偏好选择乱斗模式</strong>——喜欢快节奏对抗选「极速乱斗」，享受生存博弈选「混沌大乱斗」，有固定队友则尝试「双人乱斗」。模式之间英雄强度不完全通用，需要分别适应。
+                    </div>
+                    <div class="step-item">
+                        <strong>查看该模式的地图轮换与机制变动</strong>——例如熔岩矿洞的喷发点、镜像模式的禁用英雄。这些信息直接影响选人和开局路线，花 2 分钟阅读更新公告能避免对局中的意外。
+                    </div>
+                    <div class="step-item">
+                        <strong>对比同类型条目的社区讨论与实战视频</strong>——在决定投入时间练习某个英雄前，先看社区评论和实战片段，判断其操作门槛是否匹配自己的习惯。高胜率英雄未必适合所有人。
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. FAQ -->
+            <section class="section" id="faq">
+                <div class="section-header">
+                    <h2>乱斗常见问题</h2>
+                </div>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary>每日乱斗的赛季一般多久更新一次？</summary>
+                        <div class="faq-answer">以「极速乱斗」为例，第三赛季于 2026 年 11 月 7 日开启，前两个赛季分别持续约 10 周和 12 周。通常每个大赛季持续 8—12 周，期间会有多次热更新调整英雄数值。具体结束日期以游戏内公告为准。</div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>英雄乱斗和混沌大乱斗有什么区别？</summary>
+                        <div class="faq-answer">英雄乱斗是 3v3 或 5v5 的对称对抗，双方阵容和资源对等，强调团队配合与技能连招。混沌大乱斗是 30 人非对称生存模式，包含缩圈和随机事件，更考验个人生存与临场决策。前者单局 8—12 分钟，后者 15—20 分钟。</div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>第一次接触每日乱斗，从哪个模式开始比较好？</summary>
+                        <div class="faq-answer">建议从「极速乱斗」的 3v3 模式开始。该模式节奏适中，单局时间较短，便于熟悉英雄技能和基础地图机制。熟练后再尝试「双人乱斗」或「混沌大乱斗」，这两个模式对配合和生存意识要求更高。</div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>镜像乱斗为什么禁用冰霜法师？</summary>
+                        <div class="faq-answer">镜像乱斗中双方使用相同英雄，冰霜法师因技能机制在镜像对局中胜率差达到 12%，先手方优势过于明显。官方于 2026 年 11 月 6 日暂时禁用该英雄，预计 11 月 12 日重新评估后决定是否恢复。</div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>乱斗通行证的每周任务什么时候刷新？</summary>
+                        <div class="faq-answer">每周任务固定在周一凌晨 5:00 刷新。以 2026 年 11 月 8 日所在周为例，第 9 周任务于 11 月 3 日（周一）刷新，包含辅助英雄使用和熔岩矿洞胜场等条件，完成全部任务可获得 1200 乱斗币和限定头像框。</div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>英雄胜率榜的数据来源和更新频率是怎样的？</summary>
+                        <div class="faq-answer">胜率榜基于排位模式的对局数据统计，每周一更新一次，统计范围为过去 7 天。例如 11 月 7 日发布的榜单统计了 11 月 1 日至 7 日的数据。胜率仅反映整体趋势，具体对局还需考虑阵容搭配和玩家熟练度。</div>
+                    </details>
+                </div>
+            </section>
+
+            <!-- 8. 用户评论 -->
+            <section class="section" id="community">
+                <div class="section-header">
+                    <h2>玩家评论</h2>
+                </div>
+                <div class="comment-grid">
+                    <div class="comment-item">
+                        <div class="comment-user">
+                            <div class="comment-avatar">岩</div>
+                            <span class="comment-name">岩盾爱好者</span>
+                        </div>
+                        <p class="comment-text">岩盾这版本确实强，54.3% 胜率不是白给的，护盾厚到对面打不动。</p>
+                        <span class="comment-meta">11 月 8 日 10:22</span>
+                    </div>
+                    <div class="comment-item">
+                        <div class="comment-user">
+                            <div class="comment-avatar">影</div>
+                            <span class="comment-name">影刃老玩家</span>
+                        </div>
+                        <p class="comment-text">影刃突进削到 5 米之后手感差好多，以前能直接切后排，现在差一步距离。</p>
+                        <span class="comment-meta">11 月 7 日 19:45</span>
+                    </div>
+                    <div class="comment-item">
+                        <div class="comment-user">
+                            <div class="comment-avatar">混</div>
+                            <span class="comment-name">混沌求生者</span>
+                        </div>
+                        <p class="comment-text">混沌大乱斗缩圈改 90 秒之后节奏快多了，一局 15 分钟能打完，比以前爽。</p>
+                        <span class="comment-meta">11 月 8 日 11:05</span>
+                    </div>
+                    <div class="comment-item">
+                        <div class="comment-user">
+                            <div class="comment-avatar">镜</div>
+                            <span class="comment-name">镜像观察员</span>
+                        </div>
+                        <p class="comment-text">冰霜法师在镜像里确实离谱，先手冻住基本就赢了，禁掉合理。</p>
+                        <span class="comment-meta">11 月 6 日 22:30</span>
+                    </div>
+                    <div class="comment-item">
+                        <div class="comment-user">
+                            <div class="comment-avatar">双</div>
+                            <span class="comment-name">双人乱斗搭档</span>
+                        </div>
+                        <p class="comment-text">2v2 救援改读条之后配合更重要了，以前秒拉太无脑，现在得有人掩护。</p>
+                        <span class="comment-meta">11 月 7 日 14:12</span>
+                    </div>
+                    <div class="comment-item">
+                        <div class="comment-user">
+                            <div class="comment-avatar">通</div>
+                            <span class="comment-name">通行证肝帝</span>
+                        </div>
+                        <p class="comment-text">第 9 周任务还算友好，辅助英雄我正好会玩两个，1200 币拿了。</p>
+                        <span class="comment-meta">11 月 8 日 08:50</span>
+                    </div>
+                    <div class="comment-item">
+                        <div class="comment-user">
+                            <div class="comment-avatar">风</div>
+                            <span class="comment-name">风语者玩家</span>
+                        </div>
+                        <p class="comment-text">风语者大招文本修正了，不过实际范围没变，虚惊一场。</p>
+                        <span class="comment-meta">11 月 3 日 16:20</span>
+                    </div>
+                    <div class="comment-item">
+                        <div class="comment-user">
+                            <div class="comment-avatar">新</div>
+                            <span class="comment-name">新手乱斗客</span>
+                        </div>
+                        <p class="comment-text">刚入坑，极速乱斗 3v3 确实适合练手，输了也不至于太挫败。</p>
+                        <span class="comment-meta">11 月 5 日 21:08</span>
+                    </div>
+                    <div class="comment-item">
+                        <div class="comment-user">
+                            <div class="comment-avatar">战</div>
+                            <span class="comment-name">战术分析师</span>
+                        </div>
+                        <p class="comment-text">熔岩矿洞喷发点随机之后，固定蹲高台的队伍明显少了，前期打架变多。</p>
+                        <span class="comment-meta">11 月 4 日 12:33</span>
+                    </div>
+                    <div class="comment-item">
+                        <div class="comment-user">
+                            <div class="comment-avatar">冰</div>
+                            <span class="comment-name">冰霜法师玩家</span>
+                        </div>
+                        <p class="comment-text">本体模式冰霜法师还是能玩的，只是镜像被禁了，不影响排位。</p>
+                        <span class="comment-meta">11 月 6 日 20:18</span>
+                    </div>
+                    <div class="comment-item">
+                        <div class="comment-user">
+                            <div class="comment-avatar">段</div>
+                            <span class="comment-name">段位冲刺者</span>
+                        </div>
+                        <p class="comment-text">定级赛改 8 场有点累，不过确实比以前准，上赛季铂金这赛季定到铂金 II。</p>
+                        <span class="comment-meta">11 月 7 日 23:40</span>
+                    </div>
+                    <div class="comment-item">
+                        <div class="comment-user">
+                            <div class="comment-avatar">铁</div>
+                            <span class="comment-name">铁拳绝活哥</span>
+                        </div>
+                        <p class="comment-text">铁拳护盾削了 30 点，前期对拼没那么无解了，但还能用。</p>
+                        <span class="comment-meta">11 月 8 日 09:05</span>
+                    </div>
+                    <div class="comment-item">
+                        <div class="comment-user">
+                            <div class="comment-avatar">周</div>
+                            <span class="comment-name">周报读者</span>
+                        </div>
+                        <p class="comment-text">每周就等胜率榜更新，岩盾这周又是第一，赶紧练。</p>
+                        <span class="comment-meta">11 月 7 日 10:10</span>
+                    </div>
+                    <div class="comment-item">
+                        <div class="comment-user">
+                            <div class="comment-avatar">地</div>
+                            <span class="comment-name">地图收藏家</span>
+                        </div>
+                        <p class="comment-text">熔岩矿洞新喷发点位置挺刁钻的，有一局刷在角落，完全没想到。</p>
+                        <span class="comment-meta">11 月 4 日 18:55</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 9. 相关资讯 -->
+            <section class="section" id="news">
+                <div class="section-header">
+                    <h2>乱斗相关资讯</h2>
+                </div>
+                <div class="news-list">
+                    <div class="news-item">
+                        <span class="news-date">11 月 8 日</span>
+                        <div class="news-content">
+                            <div class="news-title"><a href="#latest">混沌大乱斗第 8 赛季毒雾事件上线</a></div>
+                            <div class="news-summary">新赛季加入毒雾蔓延机制，安全区边缘持续掉血，缩圈间隔缩短至 90 秒。</div>
+                        </div>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-date">11 月 7 日</span>
+                        <div class="news-content">
+                            <div class="news-title"><a href="#latest">极速乱斗第三赛季段位继承规则公布</a></div>
+                            <div class="news-summary">钻石以上重置至铂金 III，定级赛场次增加至 8 场，赛季奖励包含限定皮肤。</div>
+                        </div>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-date">11 月 6 日</span>
+                        <div class="news-content">
+                            <div class="news-title"><a href="#latest">镜像乱斗冰霜法师禁用公告</a></div>
+                            <div class="news-summary">因胜率差达 12%，冰霜法师在镜像模式中被暂时禁用，11 月 12 日重新评估。</div>
+                        </div>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-date">11 月 5 日</span>
+                        <div class="news-content">
+                            <div class="news-title"><a href="#latest">影刃突进距离削弱引发社区讨论</a></div>
+                            <div class="news-summary">突进从 6 米降至 5 米，冷却增加 1 秒，刺客玩家普遍反映切入难度上升。</div>
+                        </div>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-date">11 月 4 日</span>
+                        <div class="news-content">
+                            <div class="news-title"><a href="#latest">双人乱斗 2v2 配合赛正式上线</a></div>
+                            <div class="news-summary">共享血量池与 3 秒救援读条成为核心机制，首日匹配次数突破 50 万。</div>
+                        </div>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-date">11 月 3 日</span>
+                        <div class="news-content">
+                            <div class="news-title"><a href="#latest">10 月乱斗周报：岩盾综合胜率登顶</a></div>
+                            <div class="news-summary">岩盾出场率 28%、胜率 54.3%，成为 10 月末版本综合表现最强英雄。</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 10. 相关推荐 -->
+            <section class="section" id="recommend">
+                <div class="section-header">
+                    <h2>延伸内容方向</h2>
+                </div>
+                <div class="recommend-tags">
+                    <a href="#featured" class="recommend-tag">英雄连招技巧</a>
+                    <a href="#featured" class="recommend-tag">乱斗地图报点</a>
+                    <a href="#featured" class="recommend-tag">辅助英雄选择</a>
+                    <a href="#featured" class="recommend-tag">通行证性价比</a>
+                    <a href="#featured" class="recommend-tag">2v2 阵容搭配</a>
+                    <a href="#featured" class="recommend-tag">缩圈路线规划</a>
+                    <a href="#featured" class="recommend-tag">影刃替代英雄</a>
+                    <a href="#featured" class="recommend-tag">镜像模式禁用列表</a>
+                </div>
+            </section>
+
+            <!-- 11. 补充板块：热门榜单 -->
+            <section class="section" id="rank">
+                <div class="section-header">
+                    <h2>本周乱斗英雄热度榜</h2>
+                </div>
+                <div class="rank-list">
+                    <div class="rank-item">
+                        <span class="rank-num top">1</span>
+                        <span class="rank-name"><a href="#featured">岩盾</a></span>
+                        <span class="rank-score">54.3% 胜率</span>
+                    </div>
+                    <div class="rank-item">
+                        <span class="rank-num top">2</span>
+                        <span class="rank-name"><a href="#featured">风语者</a></span>
+                        <span class="rank-score">52.8% 胜率</span>
+                    </div>
+                    <div class="rank-item">
+                        <span class="rank-num top">3</span>
+                        <span class="rank-name"><a href="#featured">冰霜法师</a></span>
+                        <span class="rank-score">52.1% 胜率</span>
+                    </div>
+                    <div class="rank-item">
+                        <span class="rank-num">4</span>
+                        <span class="rank-name"><a href="#featured">铁拳</a></span>
+                        <span class="rank-score">51.5% 胜率</span>
+                    </div>
+                    <div class="rank-item">
+                        <span class="rank-num">5</span>
+                        <span class="rank-name"><a href="#featured">影刃</a></span>
+                        <span class="rank-score">50.1% 胜率</span>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- 右侧辅助栏 -->
+        <aside class="sidebar" aria-label="辅助信息">
+            <div class="sidebar-box">
+                <h3>今日热榜</h3>
+                <ul class="sidebar-list">
+                    <li><a href="#featured"><span class="index-num">1</span> 混沌大乱斗第 8 赛季 <span class="hot-badge">新</span></a></li>
+                    <li><a href="#featured"><span class="index-num">2</span> 影刃突进削弱讨论</a></li>
+                    <li><a href="#featured"><span class="index-num">3</span> 极速乱斗定级赛调整</a></li>
+                    <li><a href="#featured"><span class="index-num">4</span> 熔岩矿洞随机喷发点</a></li>
+                    <li><a href="#featured"><span class="index-num">5</span> 双人乱斗救援机制</a></li>
+                    <li><a href="#featured"><span class="index-num">6</span> 镜像乱斗冰霜法师禁用</a></li>
+                    <li><a href="#featured"><span class="index-num">7</span> 通行证第 9 周任务</a></li>
+                </ul>
+            </div>
+            <div class="sidebar-box">
+                <h3>版本更新速览</h3>
+                <ul class="sidebar-list">
+                    <li><a href="#latest"><span class="index-num">11-08</span> 毒雾蔓延事件上线</a></li>
+                    <li><a href="#latest"><span class="index-num">11-08</span> 铁拳护盾下调</a></li>
+                    <li><a href="#latest"><span class="index-num">11-07</span> 极速乱斗第三赛季</a></li>
+                    <li><a href="#latest"><span class="index-num">11-06</span> 镜像模式禁用冰霜法师</a></li>
+                    <li><a href="#latest"><span class="index-num">11-05</span> 影刃突进削弱</a></li>
+                    <li><a href="#latest"><span class="index-num">11-04</span> 熔岩矿洞随机喷发</a></li>
+                </ul>
+            </div>
+            <div class="sidebar-box">
+                <h3>热门标签</h3>
+                <div style="padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 6px;">
+                    <a href="#featured" class="tag" style="font-size:0.75rem; padding:4px 10px;">3v3</a>
+                    <a href="#featured" class="tag" style="font-size:0.75rem; padding:4px 10px;">30人生存</a>
+                    <a href="#featured" class="tag" style="font-size:0.75rem; padding:4px 10px;">2v2</a>
+                    <a href="#featured" class="tag" style="font-size:0.75rem; padding:4px 10px;">英雄调整</a>
+                    <a href="#featured" class="tag" style="font-size:0.75rem; padding:4px 10px;">赛季</a>
+                    <a href="#featured" class="tag" style="font-size:0.75rem; padding:4px 10px;">胜率榜</a>
+                    <a href="#featured" class="tag" style="font-size:0.75rem; padding:4px 10px;">通行证</a>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- 页尾 -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-brand">
+                    <span class="brand">
+                        <svg viewBox="0 0 100 100" width="28" height="28" aria-hidden="true">
+                            <rect width="100" height="100" rx="20" fill="#1a1e2c" />
+                            <path d="M30 35 L50 15 L70 35 L70 70 L50 85 L30 70 Z" fill="#f5b042" />
+                            <circle cx="50" cy="50" r="12" fill="#1a1e2c" />
+                        </svg>
+                        每日乱斗官网
+                    </span>
+                    <p>聚合每日乱斗游戏规则、英雄调整、版本更新与社区热榜，为乱斗玩家提供可查阅的内容索引。</p>
+                </div>
+                <div class="footer-col">
+                    <h4>内容栏目</h4>
+                    <ul>
+                        <li><a href="#overview">领域概览</a></li>
+                        <li><a href="#featured">精选推荐</a></li>
+                        <li><a href="#latest">最新动态</a></li>
+                        <li><a href="#categories">分类入口</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>深度内容</h4>
+                    <ul>
+                        <li><a href="#deep">深度解析</a></li>
+                        <li><a href="#guide">体验指南</a></li>
+                        <li><a href="#faq">常见问答</a></li>
+                        <li><a href="#rank">热度榜单</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>社区互动</h4>
+                    <ul>
+                        <li><a href="#community">玩家评论</a></li>
+                        <li><a href="#news">相关资讯</a></li>
+                        <li><a href="#recommend">延伸推荐</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 每日乱斗官网 · 内容聚合示例站</span>
+                <span>部分内容为示例数据，仅用于展示页面结构</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 轻量内联脚本：搜索筛选 -->
+    <script>
+        (function() {
+            var form = document.getElementById('searchForm');
+            var input = document.getElementById('searchInput');
+            var feedback = document.getElementById('searchFeedback');
+            var grid = document.getElementById('featuredGrid');
+            if (!form || !input || !grid) return;
+            var originalCards = Array.from(grid.querySelectorAll('.card'));
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                var query = input.value.trim().toLowerCase();
+                if (!query) {
+                    originalCards.forEach(function(c) { c.style.display = ''; });
+                    feedback.hidden = true;
+                    return;
+                }
+                var visibleCount = 0;
+                originalCards.forEach(function(card) {
+                    var text = card.textContent.toLowerCase();
+                    if (text.indexOf(query) !== -1) {
+                        card.style.display = '';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                if (visibleCount === 0) {
+                    feedback.textContent = '没有找到与“' + input.value.trim() + '”相关的乱斗条目，试试“影刃”“极速”或“熔岩”。';
+                    feedback.hidden = false;
+                } else {
+                    feedback.textContent = '找到 ' + visibleCount + ' 个与“' + input.value.trim() + '”相关的乱斗条目。';
+                    feedback.hidden = false;
+                }
+            });
+
+            input.addEventListener('input', function() {
+                if (input.value.trim() === '') {
+                    originalCards.forEach(function(c) { c.style.display = ''; });
+                    feedback.hidden = true;
+                }
+            });
+        })();
+    </script>
+
+</body>
+                      </html>
